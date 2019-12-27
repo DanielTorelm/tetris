@@ -1,0 +1,43 @@
+﻿body {  
+  font-family: 'Press Start 2P', sans-serif; 
+  font-style: normal;
+}
+
+h1, h2, h3 {font-family: 'Press Start 2P', sans-serif; color: #94BED4;}
+
+h1 {font-size: 2rem;}
+
+h2 {font-size: 1.8rem;}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: 320px 200px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-board {
+  box-sizing: border-box;
+}
+
+.play-button {
+  font-family: 'Press Start 2P';
+  box-sizing: border-box;
+  border: 0;
+  background-color: #c7e29c;
+  font-size: 16px;
+  padding: 0.8rem;
+  cursor: pointer;
+}
+
+
+.play-button:focus, .play-button:active {
+  background-color: #7da145;
+  outline: 0;
+}
+
