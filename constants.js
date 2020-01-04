@@ -2,7 +2,7 @@
 
 const COLS = 10;
 const ROWS = 17;
-const BLOCK_SIZE = 26;
+const BLOCK_SIZE = 27;
 const LINES_PER_LEVEL = 10;
 const COLORS = [
   'none',
@@ -31,15 +31,17 @@ const SHAPES = [
 Object.freeze(SHAPES);
 
 const KEY = {
-  ESC: 27,
-  SPACE: 32,
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40,
-  P: 80,
-  Q: 81
+  ESC: 'Escape',
+  SPACE: ' ',
+  LEFT: 'ArrowLeft',
+  UP: 'ArrowUp',
+  RIGHT: 'ArrowRight',
+  DOWN: 'ArrowDown',
+  P: 'p',
+  
 }
+
+
 Object.freeze(KEY);
 
 const POINTS = {
@@ -79,7 +81,6 @@ const LEVEL = {
 Object.freeze(LEVEL);
 
 const ROTATION = {
-  LEFT: 'left',
   RIGHT: 'right'
 }
 Object.freeze(ROTATION);

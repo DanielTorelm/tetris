@@ -4,6 +4,7 @@ const ctx = canvas.getContext('2d');
 const canvasNext = document.getElementById('next');
 const ctxNext = canvasNext.getContext('2d');
 
+
 let accountValues = {
   score: 0,
   level: 0,
@@ -33,7 +34,7 @@ moves = {
   [KEY.DOWN]: p => ({ ...p, y: p.y + 1 }),
   [KEY.SPACE]: p => ({ ...p, y: p.y + 1 }),
   [KEY.UP]: p => board.rotate(p, ROTATION.RIGHT),
-  [KEY.Q]: p => board.rotate(p, ROTATION.LEFT)
+  
 };
 
 let board = new Board(ctx, ctxNext);
@@ -41,39 +42,70 @@ addEventListener();
 initNext();
 
 function initNext() {
-  // Calculate size of canvas from constants.
   ctxNext.canvas.width = 4 * BLOCK_SIZE;
   ctxNext.canvas.height = 4 * BLOCK_SIZE;
   ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
 }
 
-function addEventListener() {
-  document.addEventListener('keydown', event => {
-    if (event.keyCode === KEY.P) {
-      pause();
-    }
-    if (event.keyCode === KEY.ESC) {
-      gameOver();
-    } else if (moves[event.keyCode]) {
-      event.preventDefault();
-      // Get new state
-      let p = moves[event.keyCode](board.piece);
-      if (event.keyCode === KEY.SPACE) {
-        // Hard drop
-        while (board.valid(p)) {
+function hardDrop(event) {
+		event.preventDefault();
+		 let p = moves[event.key](board.piece);
+   while (board.valid(p)) {
+          
           account.score += POINTS.HARD_DROP;
           board.piece.move(p);
           p = moves[KEY.DOWN](board.piece);
+          
         }
-        board.piece.hardDrop();     
-      } else if (board.valid(p)) {
-        board.piece.move(p);
-        if (event.keyCode === KEY.DOWN) {
-          account.score += POINTS.SOFT_DROP;         
-        }
-      }
-    }
-  });
+        board.piece.hardDrop();
+}
+
+
+function softDrop(event) {
+		event.preventDefault();
+		 let p = moves[event.key](board.piece);
+		 if (board.valid(p)) {
+		 		board.piece.move(p);
+     		account.score += POINTS.SOFT_DROP; 
+		 }
+		        
+}
+
+
+function move(direction)
+{
+  let p = moves[direction](board.piece);
+  if (board.valid(p)) {
+    board.piece.move(p);
+  }
+}
+
+
+function addEventListener() {
+		document.addEventListener('keydown', event => {
+      switch (event.key) {
+            case KEY.P: 
+              pause();
+            break;
+						case KEY.ESC:
+							gameOver();
+						break;
+						case KEY.SPACE:
+							hardDrop(event);
+						break;
+						case KEY.DOWN:
+							softDrop(event);
+            break;
+            case KEY.LEFT:
+            case KEY.RIGHT:
+            case KEY.UP:
+              move(event.key);
+            break;
+            default: 
+            console.log('doing nothing');
+            return;
+				}
+  	});
 }
 
 function resetGame() {
@@ -84,7 +116,7 @@ function resetGame() {
   time = { start: 0, elapsed: 0, level: LEVEL[account.level] };
 }
 
-//added, before inline onclick on button
+
 document.querySelector('.play-button').addEventListener('click', play);
 
 function play() {
@@ -110,10 +142,10 @@ function animate(now = 0) {
 
   // Clear board before drawing new state.
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
   board.draw();
   requestId = requestAnimationFrame(animate);
 }
+
 
 function gameOver() {
   cancelAnimationFrame(requestId);
@@ -123,6 +155,7 @@ function gameOver() {
   ctx.fillStyle = '#efefef';
   ctx.fillText('GAME OVER', 1.8, 4);
 }
+
 
 function pause() {
   if (!requestId) {

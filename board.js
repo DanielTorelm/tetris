@@ -164,9 +164,7 @@ class Board {
       // Reverse the order of the columns.
       if(direction === ROTATION.RIGHT) {
         p.shape.forEach(row => row.reverse());
-      } else if (direction === ROTATION.LEFT) {
-        p.shape.reverse();
-      }
+      };
     }
     
     return p;
